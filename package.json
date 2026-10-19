@@ -1,0 +1,9 @@
+{
+  "name": "solartrack-lab-browser-qa",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Optional browser verification only; the dashboard is buildless JavaScript",
+  "scripts": {"test:browser": "node scripts/browser_qa.cjs"},
+  "devDependencies": {"playwright": "1.62.1"},
+  "engines": {"node": ">=22"}
+}

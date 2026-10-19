@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "solartrack-lab"
+version = "1.0.0"
+description = "Reproducible single-diode MPPT simulation and recorded engineering dashboard"
+requires-python = ">=3.12,<3.14"
+license = "MIT"
+dependencies = ["numpy==2.2.6", "scipy==1.16.3", "pvlib==0.13.1", "matplotlib==3.10.3", "Markdown==3.9"]
+
+[project.optional-dependencies]
+test = ["pytest==8.4.1"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

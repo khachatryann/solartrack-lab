@@ -1,0 +1,82 @@
+{
+  "tool": "Playwright",
+  "version": "1.62.1",
+  "mobile_method": "Chromium viewport emulation; not physical devices",
+  "checks": [
+    {
+      "name": "Dashboard loads all three controller metrics",
+      "passed": true
+    },
+    {
+      "name": "All 54 scenario/tuning selections load actual generated metrics",
+      "passed": true
+    },
+    {
+      "name": "All five timeline signals render accessible named charts",
+      "passed": true
+    },
+    {
+      "name": "I–V and P–V curve switching",
+      "passed": true
+    },
+    {
+      "name": "Controller visibility changes plotted series",
+      "passed": true
+    },
+    {
+      "name": "Play, pause, reset and exact timeline inspection",
+      "passed": true
+    },
+    {
+      "name": "Electrical inspection table matches the selected raw timestep",
+      "passed": true
+    },
+    {
+      "name": "Selected CSV downloads all 3603 controller/time rows",
+      "passed": true
+    },
+    {
+      "name": "Parameter sweep loads its real configuration",
+      "passed": true
+    },
+    {
+      "name": "No page overflow at 375, 390, 768 and 1440 CSS pixels",
+      "passed": true
+    },
+    {
+      "name": "Mobile scenario and playback controls work",
+      "passed": true
+    },
+    {
+      "name": "Methodology, learning guide, technical report and verification pages render on mobile",
+      "passed": true
+    },
+    {
+      "name": "Verification deep link resolves",
+      "passed": true
+    },
+    {
+      "name": "No browser script or console errors",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs/screenshots/desktop.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      }
+    },
+    {
+      "path": "docs/screenshots/mobile.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    }
+  ],
+  "passed": true,
+  "configuration_selections": 54,
+  "browser": "Chromium 151.0.7922.34"
+}

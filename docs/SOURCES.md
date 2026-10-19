@@ -1,0 +1,11 @@
+# Sources and attribution
+
+* **Model equations and environmental scaling:** De Soto, W., Klein, S. A., and Beckman, W. A. (2006). *Improvement and validation of a model for photovoltaic array performance*. Solar Energy, 80(1), 78–88. https://doi.org/10.1016/j.solener.2005.06.010. Consulted through the pvlib implementation/documentation; no claim of access to the paper's full text.
+* **pvlib 0.13.1 numerical comparator:** [calcparams_desoto](https://pvlib-python.readthedocs.io/en/v0.13.1/reference/generated/pvlib.pvsystem.calcparams_desoto.html), [i_from_v](https://pvlib-python.readthedocs.io/en/v0.13.1/reference/generated/pvlib.pvsystem.i_from_v.html), [singlediode](https://pvlib-python.readthedocs.io/en/v0.13.1/reference/generated/pvlib.pvsystem.singlediode.html). pvlib is BSD-3-Clause licensed; it is installed as an external dependency, not vendored. [Source and license](https://github.com/pvlib/pvlib-python/tree/v0.13.1).
+* **MPP optimization:** SciPy `minimize_scalar`, bounded method. [Official documentation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize_scalar.html). SciPy is BSD-3-Clause licensed.
+* **Data arrays/randomness:** NumPy, BSD-3-Clause. **Plots:** Matplotlib, Matplotlib license. **Tests:** pytest, MIT. **Browser QA:** Playwright, Apache-2.0. Exact installed Python versions are recorded in `requirements-lock.txt`; browser tooling is pinned in `package-lock.json`.
+* **Reference panel values:** explicitly illustrative project choices, listed in `methodology.md`; not copied from a manufacturer. Silicon bandgap assumptions follow the cited pvlib defaults.
+* **Control implementations:** original project implementations of conventional MPPT rules. Thresholds, startup, saturation and low-current policies are documented engineering choices. No controller source is copied or attributed to an invented laboratory or author.
+* **Visual assets:** original SVG diagrams, CSS panel illustration and charts/screenshots generated from this project. System fonts only; no external stock images or font service.
+
+Source documentation was accessed on 2026-10-19. Package licenses retain their own terms; this repository's original code, documentation and generated results use the MIT license.

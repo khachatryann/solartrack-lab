@@ -1,0 +1,73 @@
+name: Verify & deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: solartrack-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install pinned dependencies
+        run: python -m pip install -r requirements-lock.txt
+      - name: Check committed data before regeneration
+        run: python -m pytest -q
+      - name: Reproduce all experiments and verification
+        run: python scripts/generate.py
+      - name: Test regenerated results
+        run: python -m pytest -q --junitxml=docs/test-results.xml
+      - name: Build static dashboard and report pages
+        run: python scripts/build_site.py
+      - name: Install browser QA dependencies
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Exercise all settings, desktop and mobile
+        run: npm run test:browser
+      - name: Rebuild with fresh browser evidence
+        run: python scripts/build_site.py
+      - name: Upload verification and screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-evidence
+          path: |
+            docs/test-results.xml
+            docs/browser-qa.json
+            docs/screenshots/
+            results/verification.json
+            results/convergence.json
+      - name: Package Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy verified site
+        id: deployment
+        uses: actions/deploy-pages@v4

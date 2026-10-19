@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A reproducible engineering experiment comparing maximum power point tracking under changing sunlight, temperature and sensor noise.">
+  <meta name="theme-color" content="#f6f7f9"><title>SolarTrack Lab — Finding maximum solar power</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to experiment</a>
+<aside class="sidebar">
+  <a class="brand" href="./"><span class="sunmark" aria-hidden="true">☀</span><span>SolarTrack<span class="brand-lab">LAB / 01</span></span></a>
+  <div class="sidebar-section">WORKSPACE</div>
+  <nav aria-label="Main navigation">
+    <a href="./" class="nav-item active"><span aria-hidden="true">◫</span> Experiment lab <span class="nav-arrow">↗</span></a>
+    <a href="#sweep" class="nav-item"><span aria-hidden="true">▦</span> Parameter sweep</a>
+    <a href="methodology.html" class="nav-item"><span aria-hidden="true">⌁</span> Methodology</a>
+    <a href="methodology.html#verification" class="nav-item"><span aria-hidden="true">✓</span> Verification</a>
+    <a href="learning.html" class="nav-item"><span aria-hidden="true">▤</span> Learning guide</a>
+  </nav>
+  <div class="side-note"><span class="eyebrow">THE RESEARCH QUESTION</span><p>How well can a controller follow a moving maximum?</p><div class="mini-panel" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>One modeled panel.<br>Three control strategies.</span></div>
+  <div class="sidebar-bottom"><span class="status-dot"></span> Open & reproducible<a href="https://github.com/khachatryann/solartrack-lab">Source code ↗</a></div>
+</aside>
+<main id="main">
+  <header class="topbar"><span>RENEWABLE ENERGY / CONTROL SYSTEMS</span><a href="methodology.html#limitations">Simulation, not hardware <span aria-hidden="true">↗</span></a></header>
+  <section class="intro"><div><div class="eyebrow"><span class="short-line"></span> AN INTERACTIVE ENGINEERING EXPERIMENT</div><h1>Finding maximum<br>solar power<span class="orange">.</span></h1><p>Same panel. Same conditions. Different decisions.<br>Explore how three controllers track a changing power peak.</p></div><div class="experiment-stamp"><span class="status-dot"></span> RECORDED EXPERIMENT<span>Single-diode PV model<br>60 s / 0.05 s integration step</span></div></section>
+  <div id="status" class="load-status" role="status">Loading reproducible experiment data…</div>
+  <section class="experiment-controls" aria-label="Experiment configuration">
+    <label class="scenario-field"><span class="field-label">01 / ENVIRONMENT</span><select id="scenario" aria-label="Environmental scenario"><option value="drop">Drop & recovery</option></select></label>
+    <label><span class="field-label">02 / VOLTAGE STEP</span><select id="step" aria-label="Controller voltage step"><option value="0.2">0.2 V</option><option value="0.6" selected>0.6 V</option><option value="1.2">1.2 V</option></select></label>
+    <label><span class="field-label">03 / SAMPLE INTERVAL</span><select id="sample" aria-label="Controller sampling interval"><option value="0.1">0.10 s</option><option value="0.25" selected>0.25 s</option><option value="0.5">0.50 s</option></select></label>
+    <button id="download" class="download-button" disabled><span aria-hidden="true">↓</span> Download run CSV</button>
+  </section>
+  <div class="scenario-caption"><span class="status-dot"></span><span id="scenario-description">Loading scenario…</span><span id="seed" class="mono"></span></div>
+  <section class="metrics" id="metrics" aria-label="Full experiment results"></section>
+  <div class="metric-footnote">Energy tracking efficiency = harvested / available energy over the full 60 s run. This is not converter efficiency.</div>
+  <section class="plots">
+    <article class="card power-card">
+      <div class="card-heading"><div><span class="eyebrow">THE EXPERIMENT</span><h2>Follow the power peak</h2></div><span class="tag">60 SECOND RECORDING</span></div>
+      <div class="chart-tabs" role="group" aria-label="Timeline chart signal">
+        <button data-signal="p" aria-pressed="true">Power</button><button data-signal="v" aria-pressed="false">Voltage</button><button data-signal="g" aria-pressed="false">Irradiance</button><button data-signal="tc" aria-pressed="false">Temperature</button><button data-signal="energy_wh" aria-pressed="false">Energy</button>
+      </div>
+      <div id="timeline-chart" class="timeline-chart"></div>
+      <div class="chart-legend" id="legend" aria-label="Visible controllers"></div>
+      <div class="playback"><button id="play" class="play" aria-label="Play recorded experiment" disabled>▶</button><button id="reset" class="reset" aria-label="Reset timeline" disabled>↺</button><span id="clock" class="mono">32.00 <span>/ 60.00 s</span></span><label class="sr-only" for="timeline">Recorded experiment time</label><input id="timeline" type="range" min="0" max="240" value="128" step="1" disabled><label class="sr-only" for="speed">Playback speed</label><select id="speed" aria-label="Playback speed"><option value="1">1×</option><option value="4" selected>4×</option><option value="8">8×</option></select></div>
+      <div class="playback-note">Recorded playback · 0.25 s inspection frames · downloads retain every 0.05 s point</div>
+    </article>
+    <article class="card curve-card">
+      <div class="card-heading"><div><span class="eyebrow">A SNAPSHOT IN TIME</span><h2>The operating point</h2></div><span class="tag mono" id="curve-time">32.00 s</span></div>
+      <div class="chart-tabs" role="group" aria-label="Panel curve"><button data-curve="pv" aria-pressed="true">P–V curve</button><button data-curve="iv" aria-pressed="false">I–V curve</button></div>
+      <div id="curve-chart" class="curve-chart"></div>
+      <div class="conditions"><div><span>Irradiance</span><strong id="current-g">— <small>W/m²</small></strong></div><div><span>Cell temperature</span><strong id="current-t">— <small>°C</small></strong></div></div>
+      <p class="curve-note">The peak is calculated separately for evaluation. Controllers receive only sampled voltage and current.</p>
+    </article>
+  </section>
+  <section class="card decisions-card"><div class="card-heading"><div><span class="eyebrow">INSIDE THE CONTROL LOOP</span><h2>Why did it move?</h2></div><span class="tag">LATEST SAMPLED DECISION</span></div><div id="decisions" class="decisions"></div><details class="data-details"><summary>Inspect true values and sensor readings</summary><div class="table-scroll"><table><caption id="snapshot-caption">Electrical values at the selected frame; sensor values held from latest sample.</caption><thead><tr><th scope="col">Controller</th><th scope="col">True V (V)</th><th scope="col">True I (A)</th><th scope="col">True P (W)</th><th scope="col">Sensor V (V)</th><th scope="col">Sensor I (A)</th></tr></thead><tbody id="snapshot"></tbody></table></div></details></section>
+  <section class="card sweep-card" id="sweep"><div class="card-heading"><div><span class="eyebrow">LOOK BEYOND ONE SETTING</span><h2>A small step, a different trade-off</h2></div><label class="compact-label">Controller<select id="sweep-controller"><option value="po">Perturb & Observe</option><option value="inc">Incremental Conductance</option></select></label></div><p class="section-description">All nine configurations for this environment. Select a cell to load its actual experiment.</p><div class="sweep-layout"><div id="sweep-table" class="table-scroll"></div><div class="sweep-insight"><span class="eyebrow">WHAT THE DATA SAYS</span><p id="sweep-finding"></p><span>Identical initial conditions · paired sensor noise · no universal winner assumed</span><a href="data/summary.csv" download>Download all 162 result rows ↓</a></div></div></section>
+  <section class="bottom-grid"><article><span class="eyebrow">BUILT TO BE CHECKED</span><h2>Agreement is a numerical check.</h2><p>Our current solver is compared with pvlib on 5,050 irradiance, temperature and voltage combinations. Both solve the same model. Agreement does not establish physical accuracy.</p><div class="verification-number"><strong id="verification-error">—</strong><span>A maximum current error</span></div><a href="methodology.html#verification">Explore the verification ↗</a></article><article><span class="eyebrow">KNOW THE BOUNDARIES</span><h2>A model, with clear limits.</h2><p>Illustrative panel parameters. Uniform illumination. A voltage actuator with a slew limit. No converter losses, switching dynamics, bypass diodes or physical measurements.</p><a href="methodology.html#limitations">Read methods & limitations ↗</a><div class="download-links"><a href="data/all-traces-csv.zip" download>All traces (.zip) ↓</a><a href="data/verification.json" download>Verification (.json) ↓</a><a id="download-json" href="data/manifest.json" download>Selected run (.json) ↓</a></div></article></section>
+  <footer><a class="footer-brand" href="./">☀ SolarTrack Lab</a><span>Finding Maximum Solar Power Under Changing Conditions</span><a href="https://github.com/khachatryann/solartrack-lab/blob/main/docs/AI_ASSISTANCE.md">AI assistance & attribution ↗</a></footer>
+</main>
+</body></html>
