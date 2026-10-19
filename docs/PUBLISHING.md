@@ -23,3 +23,5 @@ gh run view RUN_ID --log-failed
 ```
 
 The public URL is [khachatryann.github.io/solartrack-lab](https://khachatryann.github.io/solartrack-lab/). Confirm a successful deployment and open the page. Check a scenario change, a real tuning change and a CSV download. A successful local build alone does not verify public publication. The delivery record in `docs/DELIVERY.md` states what was actually published and checked.
+
+After deployment, `node scripts/verify_public.cjs` exercises the public URL, actual configuration metrics, CSV download, mobile playback and methodology link. It writes `docs/public-qa.json` only after all public checks pass. This is separate from the workflow's local-build browser checks.

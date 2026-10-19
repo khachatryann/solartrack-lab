@@ -1,0 +1,14 @@
+{
+  "url": "https://khachatryann.github.io/solartrack-lab/",
+  "checked_at_utc": "2026-10-19T16:51:56.546Z",
+  "checks": [
+    "Public homepage returns HTTP 200 and loads the recorded dashboard",
+    "Public verification data passes and contains all 5050 comparison points",
+    "Public scenario and tuning changes match the corresponding generated results",
+    "Public selected CSV download contains all 3603 controller/time rows",
+    "Public mobile layout and playback work",
+    "Public methodology and verification deep link work",
+    "No public browser script errors"
+  ],
+  "passed": true
+}
